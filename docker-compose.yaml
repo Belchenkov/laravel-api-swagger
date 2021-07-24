@@ -7,33 +7,25 @@ services:
       dockerfile: Dockerfile
     environment:
       DB_HOST: db
-      DB_DATABASE: admin
-      DB_USERNAME: root
-      DB_PASSWORD: root
+      DB_DATABASE: app
+      DB_USERNAME: app
+      DB_PASSWORD: secret
     ports:
       - 8000:8000
     volumes:
       - .:/app
     depends_on:
       - db
-    networks:
-      - app
 
   db:
-    container_name: admin_db
     platform: linux/x86_64
-    image: mysql:5.7.22
-    environment:
-      MYSQL_DATABASE: admin
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
+    image: mysql:5.7
     volumes:
-      - .dbdata:/var/lib/mysql
+      - ./storage/docker/mysql:/var/lib/mysql
+    environment:
+      - "MYSQL_ROOT_PASSWORD=secret"
+      - "MYSQL_USER=app"
+      - "MYSQL_PASSWORD=secret"
+      - "MYSQL_DATABASE=app"
     ports:
-      - 33066:3306
-    networks:
-      - app
-
-networks:
-  app:
+      - "33066:3306"

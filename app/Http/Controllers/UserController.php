@@ -6,9 +6,11 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\User;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class UserController extends Controller
 {
@@ -65,5 +67,37 @@ class UserController extends Controller
     {
         User::destroy($id);
         return response(null, Response::HTTP_NO_CONTENT);
+    }
+
+    /**
+     * @return User
+     */
+    public function user(): User
+    {
+        return \Auth::user();
+    }
+
+    public function updateInfo(Request $request)
+    {
+        if (!$user = \Auth::user()) {
+            return new NotFoundHttpException('User is not found');
+        }
+
+        $user->update($request->only('firstname', 'lastname', 'email'));
+
+        return response($user, Response::HTTP_ACCEPTED);
+    }
+
+    public function updatePassword(Request $request)
+    {
+        if (!$user = \Auth::user()) {
+            return new NotFoundHttpException('User is not found');
+        }
+
+        $user->update([
+            'password' => Hash::make($request->input('password'))
+        ]);
+
+        return response($user, Response::HTTP_ACCEPTED);
     }
 }

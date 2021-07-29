@@ -30,7 +30,7 @@ class AuthController extends Controller
 
     public function register(RegisterRequest $request)
     {
-        $user = User::create($request->only('firstname', 'lastname', 'email') + [
+        $user = User::create($request->only('firstname', 'lastname', 'email', 'role_id') + [
                 'password' => Hash::make($request->input('password'))
             ]);
 

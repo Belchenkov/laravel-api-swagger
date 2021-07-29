@@ -8,7 +8,6 @@ use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
 use App\User;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -41,7 +40,7 @@ class UserController extends Controller
      */
     public function store(UserCreateRequest $request): Response
     {
-        $user = User::create($request->only('firstname', 'lastname', 'email') + [
+        $user = User::create($request->only('firstname', 'lastname', 'email', 'role_id') + [
             'password' => Hash::make('12qwasZX')
         ]);
 
@@ -56,7 +55,7 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, int $id): Response
     {
         $user = User::findOrFail($id);
-        $user->update($request->only('firstname', 'lastname', 'email'));
+        $user->update($request->only('firstname', 'lastname', 'email', 'role_id'));
 
         return response($user, Response::HTTP_ACCEPTED);
     }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UpdateInfoRequest;
+use App\Http\Requests\UpdatePasswordRequest;
 use App\Http\Requests\UserCreateRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Http\Resources\UserResource;
@@ -77,7 +79,7 @@ class UserController extends Controller
         return \Auth::user();
     }
 
-    public function updateInfo(Request $request)
+    public function updateInfo(UpdateInfoRequest $request)
     {
         if (!$user = \Auth::user()) {
             return new NotFoundHttpException('User is not found');
@@ -88,7 +90,7 @@ class UserController extends Controller
         return response($user, Response::HTTP_ACCEPTED);
     }
 
-    public function updatePassword(Request $request)
+    public function updatePassword(UpdatePasswordRequest $request)
     {
         if (!$user = \Auth::user()) {
             return new NotFoundHttpException('User is not found');

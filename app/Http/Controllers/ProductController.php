@@ -22,18 +22,7 @@ class ProductController extends Controller
 
     public function store(CreateProductRequest $request)
     {
-        $file = $request->file('image');
-        $name = \Str::random(10);
-
-        $url = \Storage::putFileAs('images', $file, $name . '.' . $file->extension());
-
-        $product = Product::create([
-            'title' => $request->input('title'),
-            'description' => $request->input('description'),
-            'price' => $request->input('price'),
-            'image' => env('APP_URL') . '/' . $url
-        ]);
-
+        $product = Product::create($request->only('title', 'description', 'image', 'price'));
         return response($product, Response::HTTP_CREATED);
     }
 
@@ -43,13 +32,16 @@ class ProductController extends Controller
      */
     public function show(int $id): ProductResource
     {
-        $product = Product::find($id);
+        $product = Product::findOrFail($id);
         return new ProductResource($product);
     }
 
-    public function update(Request $request, $id)
+    public function update(CreateProductRequest $request, int $id)
     {
-        //
+        $product = Product::findOrFail($id);
+        $product->update($request->only('title', 'description', 'image', 'price'));
+
+        return response($product, Response::HTTP_ACCEPTED);
     }
 
     /**

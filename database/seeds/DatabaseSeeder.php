@@ -1,5 +1,8 @@
 <?php
 
+use App\Containers\Product\Data\Seeders\ProductSeeder;
+use App\Containers\Role\Data\Seeders\RoleSeeder;
+use App\Containers\User\Data\Seeders\UserSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder

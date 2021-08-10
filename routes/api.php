@@ -1,12 +1,18 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::post('login', 'AuthController@login');
-Route::post('register', 'AuthController@register');
+Route::group([
+    'namespace' => '\App\Containers\User\UI\API\Controllers'
+], function () {
+    Route::post('login','AuthController@login');
+    Route::post('register', 'AuthController@register');
+});
 
-Route::group(['middleware' => 'auth:api'], function () {
+Route::group([
+    'middleware' => 'auth:api',
+    'namespace' => '\App\Containers\User\UI\API\Controllers'
+], function () {
     Route::get('user', 'UserController@user');
     Route::put('user/info', 'UserController@updateInfo');
     Route::put('user/password', 'UserController@updatePassword');

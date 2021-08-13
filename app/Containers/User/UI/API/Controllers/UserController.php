@@ -74,9 +74,15 @@ class UserController extends ApiController
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
-    public function user()
+    public function user(): UserResource
     {
-        return \Auth::user();
+        $user = auth()->user();
+
+        return (new UserResource($user))->additional([
+            'data' => [
+                'permissions' => $user->perms()
+            ]
+        ]);
     }
 
     public function updateInfo(UpdateInfoRequest $request)

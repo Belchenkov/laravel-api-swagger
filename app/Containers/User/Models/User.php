@@ -68,7 +68,6 @@ class User extends UserModel
 
     /**
      * The attributes that should be cast to native types.
-     *
      * @var array
      */
     protected $casts = [
@@ -78,5 +77,10 @@ class User extends UserModel
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function perms()
+    {
+        return $this->role->permissions->pluck('name');
     }
 }

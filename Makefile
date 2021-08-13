@@ -18,6 +18,9 @@ queue:
 db-migrate:
 	docker-compose exec backend php artisan migrate
 
+db-seed:
+	docker-compose exec backend php artisan db:seed
+
 db-migrate-seed:
 	docker-compose exec backend php artisan migrate --seed
 

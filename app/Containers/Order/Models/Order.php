@@ -18,4 +18,9 @@ class Order extends ModelParent
             return $item->price * $item->quantity;
         });
     }
+
+    public function getNameAttribute(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

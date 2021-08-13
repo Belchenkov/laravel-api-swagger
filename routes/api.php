@@ -17,6 +17,7 @@ Route::group([
     Route::put('user/info', 'UserController@updateInfo');
     Route::put('user/password', 'UserController@updatePassword');
 
+    Route::get('export', '\App\Containers\Order\UI\API\Controllers\OrderController@export');
     Route::post('upload', 'ImageController@upload');
 
     Route::apiResource('users', '\App\Containers\User\UI\API\Controllers\UserController');

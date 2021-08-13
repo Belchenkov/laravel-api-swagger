@@ -11,4 +11,11 @@ class Order extends ModelParent
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    public function getTotalAttribute(): float
+    {
+        return (float)$this->orderItems->sum(function (OrderItem $item) {
+            return $item->price * $item->quantity;
+        });
+    }
 }

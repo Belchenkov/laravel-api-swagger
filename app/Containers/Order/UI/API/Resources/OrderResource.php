@@ -20,6 +20,7 @@ class OrderResource extends JsonResource
             'last_name' => $this->last_name,
             'email' => $this->email,
             'order_items' => OrderItemResource::collection($this->orderItems),
+            'total' => $this->total,
             'created_at_dates' => [
                 'created_at_human' => $this->created_at->diffForHumans(),
                 'created_at' => $this->created_at

@@ -19,9 +19,9 @@ Route::group([
 
     Route::post('upload', 'ImageController@upload');
 
-    Route::apiResource('users', 'UserController');
-    Route::apiResource('roles', 'RoleController');
-    Route::apiResource('products', 'ProductController');
+    Route::apiResource('users', '\App\Containers\User\UI\API\Controllers\UserController');
+    Route::apiResource('roles', '\App\Containers\Role\UI\API\Controllers\RoleController');
+    Route::apiResource('products', '\App\Containers\Product\UI\API\Controllers\ProductController');
     Route::apiResource('orders', '\App\Containers\Order\UI\API\Controllers\OrderController')
         ->only('index', 'show');
 });

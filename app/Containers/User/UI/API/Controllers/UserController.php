@@ -24,7 +24,15 @@ class UserController extends ApiController
      *     security={{"bearerAuth": {}}},
      *  @OA\Response(response="200",
      *     description="User Collection",
-     *     )
+     *     ),
+     *  @OA\Parameter (
+     *     name="page",
+     *     description="Pagination page",
+     *     in="query",
+     *     @OA\Schema (
+     *          type="integer"
+ *              )
+     *      ),
      * )
      */
     /**
@@ -41,8 +49,26 @@ class UserController extends ApiController
     }
 
     /**
+     * @OA\Get(path="/users/{id}",
+     *     security={{"bearerAuth": {}}},
+     *  @OA\Response(response="200",
+     *     description="User",
+     *     ),
+     *  @OA\Parameter (
+     *     name="id",
+     *     description="User ID",
+     *     in="path",
+     *     required=true,
+     *     @OA\Schema (
+     *          type="integer"
+     *              )
+     *      ),
+     * )
+     */
+    /**
      * @param int $id
      * @return UserResource
+     * @throws AuthorizationException
      */
     public function show(int $id): UserResource
     {

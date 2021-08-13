@@ -10,6 +10,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Arr;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 abstract class BaseRepository implements IBase, ICriteria
 {
@@ -62,9 +63,9 @@ abstract class BaseRepository implements IBase, ICriteria
 
     /**
      * @param int $per_page
-     * @return Collection
+     * @return LengthAwarePaginator
      */
-    public function paginate(int $per_page = 10): Collection
+    public function paginate(int $per_page = 10): LengthAwarePaginator
     {
         return $this->model->paginate($per_page);
     }

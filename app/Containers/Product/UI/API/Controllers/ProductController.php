@@ -5,11 +5,11 @@ namespace App\Containers\Product\UI\API\Controllers;
 use App\Containers\Product\Models\Product;
 use App\Containers\Product\UI\API\Requests\CreateProductRequest;
 use App\Http\Resources\ProductResource;
-use App\Ship\Parents\Controllers\Controller;
+use App\Ship\Parents\Controllers\ApiController;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
-class ProductController extends Controller
+class ProductController extends ApiController
 {
     /**
      * @return AnonymousResourceCollection

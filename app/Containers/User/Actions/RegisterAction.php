@@ -2,16 +2,13 @@
 
 namespace App\Containers\User\Actions;
 
-use App\Containers\User\Data\Dto\LoginDto;
 use App\Containers\User\Data\Dto\RegisterDto;
 use App\Containers\User\Tasks\CreatePasswordHashTask;
 use App\Containers\User\Tasks\CreateUserTask;
 use App\Containers\User\UI\API\Resources\UserResource;
 use App\Ship\Core\Helpers\ResponseData;
 use App\Ship\Parents\Actions\ActionParent;
-use App\Ship\Parents\Repositories\Contracts\IUser;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 
 class RegisterAction extends ActionParent
 {

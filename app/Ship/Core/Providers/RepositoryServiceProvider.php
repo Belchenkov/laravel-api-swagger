@@ -2,8 +2,8 @@
 
 namespace App\Ship\Core\Providers;
 
+use App\Containers\User\Data\Repositories\Contracts\IUser;
 use App\Containers\User\Data\Repositories\UserRepository;
-use App\Ship\Parents\Repositories\Contracts\IUser;
 use Illuminate\Support\ServiceProvider;
 
 class RepositoryServiceProvider extends ServiceProvider

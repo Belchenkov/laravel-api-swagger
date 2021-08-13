@@ -3,12 +3,12 @@
 namespace App\Containers\Role\UI\API\Controllers;
 
 use App\Containers\Role\Models\Role;
-use App\Http\Requests\RoleRequest;
-use App\Ship\Parents\Controllers\Controller;
+use App\Containers\Role\UI\API\Requests\RoleRequest;
+use App\Ship\Parents\Controllers\ApiController;
 use Illuminate\Http\Response;
 use Illuminate\Support\Collection;
 
-class RoleController extends Controller
+class RoleController extends ApiController
 {
 
     /**

@@ -3,10 +3,11 @@
 namespace App\Containers\User\Tasks;
 
 use App\Containers\User\Data\Dto\RegisterDto;
+use App\Containers\User\Data\Repositories\Contracts\IUser;
 use App\Ship\Core\Exceptions\CreateResourceFailedException;
-use App\Ship\Parents\Repositories\Contracts\IUser;
+use App\Ship\Parents\Tasks\TaskParent;
 
-class CreateUserTask
+class CreateUserTask extends TaskParent
 {
     /**
      * @var IUser

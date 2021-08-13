@@ -2,6 +2,7 @@
 
 namespace App\Containers\User\UI\API\Controllers;
 
+use App\Containers\User\Actions\GetAllUsersAction;
 use App\Containers\User\Models\User;
 use App\Containers\User\UI\API\Requests\UpdateInfoRequest;
 use App\Containers\User\UI\API\Requests\UpdatePasswordRequest;
@@ -9,6 +10,7 @@ use App\Containers\User\UI\API\Requests\UserCreateRequest;
 use App\Containers\User\UI\API\Requests\UserUpdateRequest;
 use App\Containers\User\UI\API\Resources\UserResource;
 use App\Ship\Parents\Controllers\ApiController;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -17,12 +19,13 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class UserController extends ApiController
 {
     /**
-     * @return AnonymousResourceCollection
+     * @param GetAllUsersAction $action
+     * @return JsonResponse
      */
-    public function index(): AnonymousResourceCollection
+    public function index(GetAllUsersAction $action): JsonResponse
     {
-        $users = User::paginate(10);
-        return UserResource::collection($users);
+        $result = $action->run();
+        return response()->json($result->data, $result->code);
     }
 
     /**

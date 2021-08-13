@@ -2,7 +2,9 @@
 
 namespace App\Ship\Parents\Models;
 
-class ModelParent
+use Illuminate\Database\Eloquent\Model;
+
+class ModelParent extends Model
 {
 
 }

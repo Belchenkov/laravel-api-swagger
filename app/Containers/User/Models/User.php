@@ -20,6 +20,25 @@ use Laravel\Passport\HasApiTokens;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @mixin \Eloquent
+ * @property int $role_id
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Client[] $clients
+ * @property-read int|null $clients_count
+ * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
+ * @property-read int|null $notifications_count
+ * @property-read \App\Containers\Role\Models\Role $role
+ * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
+ * @property-read int|null $tokens_count
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Containers\User\Models\User newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Containers\User\Models\User newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Containers\User\Models\User query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Containers\User\Models\User whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Containers\User\Models\User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Containers\User\Models\User whereFirstname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Containers\User\Models\User whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Containers\User\Models\User whereLastname($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Containers\User\Models\User wherePassword($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Containers\User\Models\User whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Containers\User\Models\User whereUpdatedAt($value)
  */
 class User extends UserModel
 {

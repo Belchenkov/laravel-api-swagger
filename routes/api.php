@@ -11,18 +11,19 @@ Route::group([
 
 Route::group([
     'middleware' => 'auth:api',
-    'namespace' => '\App\Containers\User\UI\API\Controllers'
+    'namespace' => '\App\Containers'
 ], function () {
-    Route::get('user', 'UserController@user');
-    Route::put('user/info', 'UserController@updateInfo');
-    Route::put('user/password', 'UserController@updatePassword');
+    Route::get('user', 'User\UI\API\Controllers\UserController@user');
+    Route::put('user/info', 'User\UI\API\Controllers\UserController@updateInfo');
+    Route::put('user/password', 'User\UI\API\Controllers\UserController@updatePassword');
 
-    Route::get('export', '\App\Containers\Order\UI\API\Controllers\OrderController@export');
-    Route::post('upload', 'ImageController@upload');
+    Route::get('export', 'Order\UI\API\Controllers\OrderController@export');
+    Route::get('chart', 'Dashboard\UI\API\Controllers\DashboardController@chart');
+    Route::post('upload', 'Order\UI\API\Controllers\ImageController@upload');
 
-    Route::apiResource('users', '\App\Containers\User\UI\API\Controllers\UserController');
-    Route::apiResource('roles', '\App\Containers\Role\UI\API\Controllers\RoleController');
-    Route::apiResource('products', '\App\Containers\Product\UI\API\Controllers\ProductController');
-    Route::apiResource('orders', '\App\Containers\Order\UI\API\Controllers\OrderController')
+    Route::apiResource('users', 'User\UI\API\Controllers\UserController');
+    Route::apiResource('roles', 'Role\UI\API\Controllers\RoleController');
+    Route::apiResource('products', 'Product\UI\API\Controllers\ProductController');
+    Route::apiResource('orders', 'Order\UI\API\Controllers\OrderController')
         ->only('index', 'show');
 });

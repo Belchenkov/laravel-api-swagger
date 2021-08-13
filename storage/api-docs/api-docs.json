@@ -1,0 +1,31 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API Documentation",
+        "description": "Admin OpenApi description",
+        "contact": {
+            "email": "u608110@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Admin API Server"
+        }
+    ],
+    "paths": {
+        "/users": {
+            "get": {
+                "responses": {
+                    "200": {
+                        "description": "User Collection"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

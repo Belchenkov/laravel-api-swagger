@@ -10,4 +10,20 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * @OA\Info(
+     *   title="API Documentation",
+     *   version="1.0.0",
+     *   description="Admin OpenApi description",
+     *   @OA\Contact(
+     *     email="u608110@gmail.com"
+     *   ),
+     * )
+     *
+     * @OA\Server(
+     *     url="http://localhost:8000",
+     *     description="Admin API Server"
+     * )
+     */
 }

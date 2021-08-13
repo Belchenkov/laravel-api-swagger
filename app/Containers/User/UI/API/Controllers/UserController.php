@@ -10,6 +10,7 @@ use App\Containers\User\UI\API\Requests\UserCreateRequest;
 use App\Containers\User\UI\API\Requests\UserUpdateRequest;
 use App\Containers\User\UI\API\Resources\UserResource;
 use App\Ship\Parents\Controllers\ApiController;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -19,8 +20,16 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class UserController extends ApiController
 {
     /**
+     * @OA\Get(path="/users",
+     *  @OA\Response(response="200",
+     *     description="User Collection",
+     *     )
+     * )
+     */
+    /**
      * @param GetAllUsersAction $action
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function index(GetAllUsersAction $action): JsonResponse
     {

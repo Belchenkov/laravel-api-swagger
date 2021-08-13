@@ -8,6 +8,7 @@ use App\Containers\Role\UI\API\Resources\RoleResource;
 use App\Ship\Parents\Controllers\ApiController;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 
 class RoleController extends ApiController
 {
@@ -16,6 +17,8 @@ class RoleController extends ApiController
       */
     public function index(): AnonymousResourceCollection
     {
+        Gate::authorize('view', 'roles');
+
         return RoleResource::collection(Role::all());
     }
 
@@ -25,6 +28,8 @@ class RoleController extends ApiController
      */
     public function store(RoleRequest $request): Response
     {
+        Gate::authorize('edit', 'roles');
+
         $role = Role::create($request->only('name'));
 
         if ($permissions = $request->input('permissions')) {
@@ -45,6 +50,8 @@ class RoleController extends ApiController
      */
     public function show(int $id): RoleResource
     {
+        Gate::authorize('view', 'roles');
+
         return new RoleResource(Role::find($id));
     }
 
@@ -55,6 +62,8 @@ class RoleController extends ApiController
      */
     public function update(RoleRequest $request, int $id): Response
     {
+        Gate::authorize('edit', 'roles');
+
         $role = Role::find($id);
         $role->update($request->only('name'));
 
@@ -80,6 +89,8 @@ class RoleController extends ApiController
      */
     public function destroy(int $id): Response
     {
+        Gate::authorize('edit', 'roles');
+
         \DB::table('role_permissions')
             ->where('role_id', $id)
             ->delete();

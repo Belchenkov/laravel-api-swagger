@@ -3,6 +3,7 @@
 namespace App\Containers\User\UI\API\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 
 /**
  * Class UserCreateRequest
@@ -21,7 +22,7 @@ class UserCreateRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Gate::allows('view', 'users');
     }
 
     /**

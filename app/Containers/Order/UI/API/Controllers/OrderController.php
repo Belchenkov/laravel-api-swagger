@@ -7,12 +7,15 @@ use App\Containers\Order\Models\Order;
 use App\Containers\Order\UI\API\Resources\OrderResource;
 use App\Ship\Parents\Controllers\ApiController;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class OrderController extends ApiController
 {
     public function index(): AnonymousResourceCollection
     {
+        Gate::authorize('view', 'orders');
+
         $orders = Order::paginate();
 
         return OrderResource::collection($orders);
@@ -20,10 +23,12 @@ class OrderController extends ApiController
 
     public function show(int $id): OrderResource
     {
+        Gate::authorize('view', 'orders');
+
         return new OrderResource(Order::find($id));
     }
 
-    public function export()
+    public function export(): StreamedResponse
     {
         $headers = [
             'Content-type' => 'text/csv',

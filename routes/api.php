@@ -22,4 +22,6 @@ Route::group([
     Route::apiResource('users', 'UserController');
     Route::apiResource('roles', 'RoleController');
     Route::apiResource('products', 'ProductController');
+    Route::apiResource('orders', '\App\Containers\Order\UI\API\Controllers\OrderController')
+        ->only('index', 'show');
 });

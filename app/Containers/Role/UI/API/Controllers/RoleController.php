@@ -4,19 +4,19 @@ namespace App\Containers\Role\UI\API\Controllers;
 
 use App\Containers\Role\Models\Role;
 use App\Containers\Role\UI\API\Requests\RoleRequest;
+use App\Containers\Role\UI\API\Resources\RoleResource;
 use App\Ship\Parents\Controllers\ApiController;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
-use Illuminate\Support\Collection;
 
 class RoleController extends ApiController
 {
-
-    /**
-     * @return Collection
-     */
-    public function index(): Collection
+     /**
+     * @return AnonymousResourceCollection
+      */
+    public function index(): AnonymousResourceCollection
     {
-        return Role::all();
+        return RoleResource::collection(Role::all());
     }
 
     /**
@@ -26,16 +26,26 @@ class RoleController extends ApiController
     public function store(RoleRequest $request): Response
     {
         $role = Role::create($request->only('name'));
-        return response($role, Response::HTTP_CREATED);
+
+        if ($permissions = $request->input('permissions')) {
+            foreach ($permissions as $permission_id) {
+                \DB::table('role_permission')->insert([
+                   'role_id' => $role->id,
+                   'permission_id' => $permission_id,
+                ]);
+            }
+        }
+
+        return response(new RoleResource($role), Response::HTTP_CREATED);
     }
 
     /**
      * @param int $id
-     * @return Role
+     * @return RoleResource
      */
-    public function show(int $id): Role
+    public function show(int $id): RoleResource
     {
-        return Role::find($id);
+        return new RoleResource(Role::find($id));
     }
 
     /**
@@ -48,7 +58,20 @@ class RoleController extends ApiController
         $role = Role::find($id);
         $role->update($request->only('name'));
 
-        return response($role, Response::HTTP_ACCEPTED);
+        \DB::table('role_permissions')
+            ->where('role_id', $role->id)
+            ->delete();
+
+        if ($permissions = $request->input('permissions')) {
+            foreach ($permissions as $permission_id) {
+                \DB::table('role_permission')->insert([
+                    'role_id' => $role->id,
+                    'permission_id' => $permission_id,
+                ]);
+            }
+        }
+
+        return response(new RoleResource($role), Response::HTTP_ACCEPTED);
     }
 
     /**
@@ -57,6 +80,10 @@ class RoleController extends ApiController
      */
     public function destroy(int $id): Response
     {
+        \DB::table('role_permissions')
+            ->where('role_id', $id)
+            ->delete();
+
         Role::destroy($id);
         return response(null, Response::HTTP_NO_CONTENT);
     }

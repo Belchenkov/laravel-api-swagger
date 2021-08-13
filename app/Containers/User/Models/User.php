@@ -7,6 +7,7 @@ use App\Ship\Parents\Models\UserModel;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Laravel\Passport\HasApiTokens;
 
 /**
@@ -79,8 +80,13 @@ class User extends UserModel
         return $this->belongsTo(Role::class);
     }
 
-    public function perms()
+    public function perms(): Collection
     {
         return $this->role->permissions->pluck('name');
+    }
+
+    public function hasAccess(string $access): bool
+    {
+        return $this->perms()->contains($access);
     }
 }

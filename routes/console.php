@@ -1,7 +1,8 @@
 <?php
 
-use Illuminate\Foundation\Inspiring;
+use App\Containers\User\Models\User;
 use Illuminate\Support\Facades\Artisan;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,12 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 
-Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
+Artisan::command('token:generate {id}', function () {
+    $id = $this->argument('id');
+    $user = User::find($id);
+
+    Auth::setUser($user);
+
+    $console = new ConsoleOutput();
+    $console->writeln($user->createToken('admin')->accessToken);
+})->describe('Generate Auth Token');

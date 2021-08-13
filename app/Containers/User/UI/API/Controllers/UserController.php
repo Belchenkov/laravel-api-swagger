@@ -21,6 +21,7 @@ class UserController extends ApiController
 {
     /**
      * @OA\Get(path="/users",
+     *     security={{"bearerAuth": {}}},
      *  @OA\Response(response="200",
      *     description="User Collection",
      *     )

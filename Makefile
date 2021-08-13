@@ -29,3 +29,9 @@ db-refresh:
 
 passport-install:
 	docker-compose exec backend php artisan passport:install
+
+docs:
+	docker-compose exec backend php artisan l5-swagger:generate
+
+generate-token:
+	docker-compose exec backend php artisan token:generate 1

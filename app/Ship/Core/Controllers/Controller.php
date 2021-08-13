@@ -22,8 +22,14 @@ class Controller extends BaseController
      * )
      *
      * @OA\Server(
-     *     url="http://localhost:8000",
+     *     url="http://localhost:8000/api",
      *     description="Admin API Server"
+     * )
+     *
+     * @OA\SecurityScheme(
+     *     securityScheme="bearerAuth",
+     *     type="http",
+     *     scheme="bearer"
      * )
      */
 }

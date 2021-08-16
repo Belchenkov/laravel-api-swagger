@@ -79,8 +79,30 @@ class UserController extends ApiController
     }
 
     /**
+     * @OA\Post(
+     *     path="/users",
+     *     security={{"bearerAuth": {}}},
+     *  @OA\Response(
+     *     response="201",
+     *     description="User Create",
+     * ),
+     *   @OA\RequestBody(
+     *    required=true,
+     *    description="Pass user credentials",
+     *    @OA\JsonContent(
+     *       required={"firstname","lastname", "role_id", "email"},
+     *       @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *       @OA\Property(property="firstname", type="string", example="John"),
+     *       @OA\Property(property="lastname", type="string", example="Smith"),
+     *       @OA\Property(property="role_id", type="integer", example="1"),
+     *     ),
+     *  ),
+     * )
+     */
+    /**
      * @param UserCreateRequest $request
      * @return Response
+     * @throws AuthorizationException
      */
     public function store(UserCreateRequest $request): Response
     {
@@ -94,9 +116,40 @@ class UserController extends ApiController
     }
 
     /**
+     * @OA\Put(
+     *     path="/users/{id}",
+     *     security={{"bearerAuth": {}}},
+     *  @OA\Response(
+     *     response="202",
+     *     description="User Update",
+     * ),
+     *  @OA\Parameter (
+     *  name="id",
+     *  description="User ID",
+     *  in="path",
+     *  required=true,
+     *  @OA\Schema (
+     *       type="integer"
+     *      )
+     *  ),
+     *   @OA\RequestBody(
+     *    required=true,
+     *    description="Pass user credentials",
+     *    @OA\JsonContent(
+     *       required={"email"},
+     *       @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *       @OA\Property(property="firstname", type="string", example="John"),
+     *       @OA\Property(property="lastname", type="string", example="Smith"),
+     *       @OA\Property(property="role_id", type="integer", example="1"),
+     *     ),
+     *  ),
+     * )
+     */
+    /**
      * @param UserUpdateRequest $request
      * @param int $id
      * @return Response
+     * @throws AuthorizationException
      */
     public function update(UserUpdateRequest $request, int $id): Response
     {
@@ -109,8 +162,28 @@ class UserController extends ApiController
     }
 
     /**
+     * @OA\Delete(
+     *     path="/users/{id}",
+     *     security={{"bearerAuth": {}}},
+     *  @OA\Response(
+     *     response="204",
+     *     description="User Delete",
+     * ),
+     *  @OA\Parameter (
+     *  name="id",
+     *  description="User ID",
+     *  in="path",
+     *  required=true,
+     *  @OA\Schema (
+     *       type="integer"
+     *      )
+     *  ),
+     * )
+     */
+    /**
      * @param int $id
      * @return Response
+     * @throws AuthorizationException
      */
     public function destroy(int $id): Response
     {

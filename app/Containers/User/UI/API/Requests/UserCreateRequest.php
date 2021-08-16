@@ -5,13 +5,14 @@ namespace App\Containers\User\UI\API\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Gate;
 
+
 /**
  * Class UserCreateRequest
  * @package App\Http\Requests
  * @property string $firstname
  * @property string $lastname
  * @property string $email
- * @property string $password
+ * @property int $role_id
  */
 class UserCreateRequest extends FormRequest
 {

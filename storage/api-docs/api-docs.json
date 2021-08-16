@@ -17,6 +17,9 @@
     "paths": {
         "/users": {
             "get": {
+                "tags": [
+                    "Users"
+                ],
                 "parameters": [
                     {
                         "name": "page",
@@ -39,6 +42,9 @@
                 ]
             },
             "post": {
+                "tags": [
+                    "Users"
+                ],
                 "requestBody": {
                     "description": "Pass user credentials",
                     "required": true,
@@ -89,6 +95,9 @@
         },
         "/users/{id}": {
             "get": {
+                "tags": [
+                    "Users"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -112,6 +121,9 @@
                 ]
             },
             "put": {
+                "tags": [
+                    "Users"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -168,6 +180,9 @@
                 ]
             },
             "delete": {
+                "tags": [
+                    "Users"
+                ],
                 "parameters": [
                     {
                         "name": "id",
@@ -182,6 +197,113 @@
                 "responses": {
                     "204": {
                         "description": "User Delete"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/user": {
+            "get": {
+                "tags": [
+                    "Profile"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Get Auth User"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/info": {
+            "put": {
+                "tags": [
+                    "Profile"
+                ],
+                "requestBody": {
+                    "description": "Pass user credentials",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "user1@mail.com"
+                                    },
+                                    "firstname": {
+                                        "type": "string",
+                                        "example": "John"
+                                    },
+                                    "lastname": {
+                                        "type": "string",
+                                        "example": "Smith"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "User Info Update"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/users/password": {
+            "put": {
+                "tags": [
+                    "Profile"
+                ],
+                "requestBody": {
+                    "description": "Pass user password",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "password",
+                                    "password_confirm"
+                                ],
+                                "properties": {
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "123456"
+                                    },
+                                    "password_confirm": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "123456"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "202": {
+                        "description": "User Password Update"
                     }
                 },
                 "security": [

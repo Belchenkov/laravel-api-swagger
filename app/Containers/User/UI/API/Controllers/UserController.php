@@ -10,6 +10,9 @@ use App\Containers\User\UI\API\Requests\UserCreateRequest;
 use App\Containers\User\UI\API\Requests\UserUpdateRequest;
 use App\Containers\User\UI\API\Resources\UserResource;
 use App\Ship\Parents\Controllers\ApiController;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Contracts\Routing\ResponseFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Gate;
@@ -19,8 +22,25 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 class UserController extends ApiController
 {
     /**
+     * @OA\Get(
+     *     path="/users",
+     *     security={{"bearerAuth": {}}},
+     *     tags={"Users"},
+     *      @OA\Response(response="200",
+     *         description="User Collection",
+     *      ),
+     *      @OA\Parameter (
+     *         name="page",
+     *         description="Pagination page",
+     *         in="query",
+     *         @OA\Schema (type="integer")
+     *      ),
+     * )
+     */
+    /**
      * @param GetAllUsersAction $action
      * @return JsonResponse
+     * @throws AuthorizationException
      */
     public function index(GetAllUsersAction $action): JsonResponse
     {
@@ -31,8 +51,27 @@ class UserController extends ApiController
     }
 
     /**
+     * @OA\Get(path="/users/{id}",
+     *     security={{"bearerAuth": {}}},
+     *     tags={"Users"},
+     *  @OA\Response(response="200",
+     *     description="User",
+     *     ),
+     *  @OA\Parameter (
+     *     name="id",
+     *     description="User ID",
+     *     in="path",
+     *     required=true,
+     *     @OA\Schema (
+     *          type="integer"
+     *              )
+     *      ),
+     * )
+     */
+    /**
      * @param int $id
      * @return UserResource
+     * @throws AuthorizationException
      */
     public function show(int $id): UserResource
     {
@@ -43,8 +82,31 @@ class UserController extends ApiController
     }
 
     /**
+     * @OA\Post(
+     *     path="/users",
+     *     tags={"Users"},
+     *     security={{"bearerAuth": {}}},
+     *  @OA\Response(
+     *     response="201",
+     *     description="User Create",
+     * ),
+     *   @OA\RequestBody(
+     *    required=true,
+     *    description="Pass user credentials",
+     *    @OA\JsonContent(
+     *       required={"firstname","lastname", "role_id", "email"},
+     *       @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *       @OA\Property(property="firstname", type="string", example="John"),
+     *       @OA\Property(property="lastname", type="string", example="Smith"),
+     *       @OA\Property(property="role_id", type="integer", example="1"),
+     *     ),
+     *  ),
+     * )
+     */
+    /**
      * @param UserCreateRequest $request
      * @return Response
+     * @throws AuthorizationException
      */
     public function store(UserCreateRequest $request): Response
     {
@@ -58,9 +120,41 @@ class UserController extends ApiController
     }
 
     /**
+     * @OA\Put(
+     *     path="/users/{id}",
+     *     tags={"Users"},
+     *     security={{"bearerAuth": {}}},
+     *  @OA\Response(
+     *     response="202",
+     *     description="User Update",
+     * ),
+     *  @OA\Parameter (
+     *  name="id",
+     *  description="User ID",
+     *  in="path",
+     *  required=true,
+     *  @OA\Schema (
+     *       type="integer"
+     *      )
+     *  ),
+     *   @OA\RequestBody(
+     *    required=true,
+     *    description="Pass user credentials",
+     *    @OA\JsonContent(
+     *       required={"email"},
+     *       @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *       @OA\Property(property="firstname", type="string", example="John"),
+     *       @OA\Property(property="lastname", type="string", example="Smith"),
+     *       @OA\Property(property="role_id", type="integer", example="1"),
+     *     ),
+     *  ),
+     * )
+     */
+    /**
      * @param UserUpdateRequest $request
      * @param int $id
      * @return Response
+     * @throws AuthorizationException
      */
     public function update(UserUpdateRequest $request, int $id): Response
     {
@@ -73,8 +167,29 @@ class UserController extends ApiController
     }
 
     /**
+     * @OA\Delete(
+     *     path="/users/{id}",
+     *     security={{"bearerAuth": {}}},
+     *     tags={"Users"},
+     *  @OA\Response(
+     *     response="204",
+     *     description="User Delete",
+     * ),
+     *  @OA\Parameter (
+     *  name="id",
+     *  description="User ID",
+     *  in="path",
+     *  required=true,
+     *  @OA\Schema (
+     *       type="integer"
+     *      )
+     *  ),
+     * )
+     */
+    /**
      * @param int $id
      * @return Response
+     * @throws AuthorizationException
      */
     public function destroy(int $id): Response
     {
@@ -84,6 +199,18 @@ class UserController extends ApiController
         return response(null, Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     * @OA\Get(path="/user",
+     *     security={{"bearerAuth": {}}},
+     *     tags={"Profile"},
+     *  @OA\Response(response="200",
+     *     description="Get Auth User",
+     *     ),
+     * )
+     */
+    /**
+     * @return UserResource
+     */
     public function user(): UserResource
     {
         $user = auth()->user();
@@ -95,6 +222,31 @@ class UserController extends ApiController
         ]);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/users/info",
+     *     security={{"bearerAuth": {}}},
+     *     tags={"Profile"},
+     *  @OA\Response(
+     *     response="202",
+     *     description="User Info Update",
+     * ),
+     *   @OA\RequestBody(
+     *    required=true,
+     *    description="Pass user credentials",
+     *    @OA\JsonContent(
+     *       required={"email"},
+     *       @OA\Property(property="email", type="string", format="email", example="user1@mail.com"),
+     *       @OA\Property(property="firstname", type="string", example="John"),
+     *       @OA\Property(property="lastname", type="string", example="Smith"),
+     *     ),
+     *  ),
+     * )
+     */
+    /**
+     * @param UpdateInfoRequest $request
+     * @return Application|ResponseFactory|Response|NotFoundHttpException
+     */
     public function updateInfo(UpdateInfoRequest $request)
     {
         if (!$user = \Auth::user()) {
@@ -106,6 +258,30 @@ class UserController extends ApiController
         return response($user, Response::HTTP_ACCEPTED);
     }
 
+    /**
+     * @OA\Put(
+     *     path="/users/password",
+     *     security={{"bearerAuth": {}}},
+     *     tags={"Profile"},
+     *  @OA\Response(
+     *     response="202",
+     *     description="User Password Update",
+     * ),
+     *   @OA\RequestBody(
+     *    required=true,
+     *    description="Pass user password",
+     *    @OA\JsonContent(
+     *       required={"password", "password_confirm"},
+     *       @OA\Property(property="password", type="string", format="password", example="123456"),
+     *       @OA\Property(property="password_confirm", type="string", format="password", example="123456"),
+     *     ),
+     *  ),
+     * )
+     */
+    /**
+     * @param UpdatePasswordRequest $request
+     * @return Application|ResponseFactory|Response|NotFoundHttpException
+     */
     public function updatePassword(UpdatePasswordRequest $request)
     {
         if (!$user = \Auth::user()) {
